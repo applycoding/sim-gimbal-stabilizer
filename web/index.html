@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sim-gimbal-stabilizer</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 1.5rem; max-width: 900px; }
+      canvas { width: 100%; height: 220px; border: 1px solid #ccc; }
+      label { display: block; margin-top: 0.75rem; }
+    </style>
+  </head>
+  <body>
+    <h1>sim-gimbal-stabilizer (simulation only)</h1>
+    <p>Two-axis boresight hold · cascaded PID · WASM core (not TypeScript control).</p>
+    <p>Status: <span id="status">loading…</span></p>
+    <label>Boresight k_p <input id="gain-att-kp" type="range" min="0" max="30" step="0.1" value="10" /></label>
+    <label>Rate k_p <input id="gain-rate-kp" type="range" min="0" max="0.2" step="0.005" value="0.05" /></label>
+    <button id="btn-step" type="button">10° pitch step</button>
+    <h2>Boresight pitch error</h2>
+    <canvas id="err-plot"></canvas>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

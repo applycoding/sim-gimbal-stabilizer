@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: Apache-2.0
+name: ros2-humble
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, labeled]
+jobs:
+  humble:
+    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'ci-ros')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    container:
+      image: ros:humble-ros-base
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+      - name: Build core
+        run: |
+          apt-get update && apt-get install -y g++ cmake
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DSGS_BUILD_ROS=OFF
+          cmake --build build -j$(nproc)
+      - name: Colcon smoke placeholder
+        run: echo "ROS wrapper optional; package builds in tree when SGS_BUILD_ROS=ON"

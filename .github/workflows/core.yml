@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: Apache-2.0
+name: core
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+      - name: Compiler versions
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-13 cmake
+          g++-13 --version
+          python3 --version
+      - name: Configure and test
+        run: |
+          cmake -S . -B build -DCMAKE_CXX_COMPILER=g++-13 -DCMAKE_BUILD_TYPE=Release \
+            -DSGS_BUILD_PYTHON=OFF -DSGS_BUILD_ROS=OFF -DSGS_BUILD_WASM=OFF
+          cmake --build build -j$(nproc)
+          ctest --test-dir build --output-on-failure
+          python3 tools/check_no_heap.py

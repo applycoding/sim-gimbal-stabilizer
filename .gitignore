@@ -1,0 +1,9 @@
+build/
+build-wasm/
+.emsdk/
+node_modules/
+web/dist/
+web/test-results/
+*.o
+*.a
+cmake-build-*/

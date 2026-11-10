@@ -1,0 +1,10 @@
+sim-gimbal-stabilizer, Copyright 2026 Arpan Bom
+
+Idea credits (no third-party controller source is vendored):
+See REFERENCES.md and the README for permissively licensed projects cited as ideas only.
+
+Dependency notices:
+- GoogleTest (BSD-3-Clause) — test framework via FetchContent when SGS_BUILD_TESTS=ON
+- pybind11 (BSD-style) — optional Python bindings when SGS_BUILD_PYTHON=ON
+- nlohmann/json (MIT) — optional scenario JSON when tests need it
+- Emscripten SDK — WASM toolchain for the browser demo (upstream licenses apply to emitted glue)

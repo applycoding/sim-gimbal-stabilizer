@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<package format="3">
+  <version>1.0.0</version>
+  <description>Optional ROS 2 Humble adapter for sim-gimbal-stabilizer (simulation only).</description>
+  <maintainer email="applycoding@gmail.com">Arpan Bom</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
