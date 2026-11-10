@@ -1,4 +1,5 @@
 build/
+build-py/
 build-wasm/
 .emsdk/
 node_modules/

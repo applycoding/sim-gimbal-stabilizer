@@ -70,8 +70,8 @@ void ekf_init_state(EstimatorState* st) {
   std::memset(st->gyro_bias, 0, sizeof(st->gyro_bias));
   mat6_identity(st->P);
   for (int i = 0; i < 3; ++i) {
-    st->P[i * kN + i] = 1e-4;
-    st->P[(3 + i) * kN + (3 + i)] = 1e-6;
+    st->P[i * kN + i] = 0.02;
+    st->P[(3 + i) * kN + (3 + i)] = 1e-5;
   }
 }
 
@@ -140,21 +140,11 @@ void ekf_update(double dt, const ImuSample& imu, const Gains& gains, const Limit
     } else if (std::fabs(mn - refn) / refn > limits.mag_gate_frac) {
       *flags |= kFlagMagWeak;
     } else {
-      const Vec3 m_ned = quat_rotate(st->q, vec3_normalize(m));
-      const double horiz = std::sqrt(m_ned.x * m_ned.x + m_ned.y * m_ned.y);
-      if (horiz < 5.0) {
+      const double horiz_body = std::sqrt(m.x * m.x + m.y * m.y);
+      if (horiz_body < 5.0) {
         *flags |= kFlagMagWeak;
       } else {
-        const double ref_h =
-            std::atan2(complementary::kMagRefNed[1], complementary::kMagRefNed[0]);
-        const double est_h = std::atan2(m_ned.y, m_ned.x);
-        double yaw_innov = est_h - ref_h;
-        while (yaw_innov > kPi) {
-          yaw_innov -= 2.0 * kPi;
-        }
-        while (yaw_innov < -kPi) {
-          yaw_innov += 2.0 * kPi;
-        }
+        const double yaw_innov = mag_heading_error_rad(st->q, imu);
         if (std::fabs(yaw_innov) > 30.0 * kPi / 180.0) {
           *flags |= kFlagMagWeak;
         } else {
@@ -162,7 +152,7 @@ void ekf_update(double dt, const ImuSample& imu, const Gains& gains, const Limit
           double x = 0.0;
           double P = st->P[2 * kN + 2];
           kalman_update_scalar(&x, &P, yaw_innov, R, 1.0);
-          dx[2] += x;
+          dx[2] -= x;
           st->P[2 * kN + 2] = P;
         }
       }

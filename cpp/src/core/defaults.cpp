@@ -17,7 +17,7 @@ Gains default_gains() {
   g.ekf_sigma_gyro = 0.01;
   g.ekf_sigma_bias_rw = 1e-4;
   g.ekf_sigma_acc = 0.3;
-  g.ekf_sigma_mag = 2.0;
+  g.ekf_sigma_mag = 1.0;
   g.comp_kp_acc = 2.0;
   g.comp_kp_mag = 0.5;
   return g;

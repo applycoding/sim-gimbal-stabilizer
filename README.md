@@ -23,7 +23,9 @@ Licensed under **Apache License 2.0** — see `LICENSE` and `NOTICE`.
 | Rate (inner) | 0.05 | 0.40 | 2e-4 |
 | Boresight (outer) | 10 | 2.0 | 0.10 |
 
-Shared: τ_d = 5 ms, τ_max = 0.15 N·m, inner torque dead-zone = 0.001 N·m, `|θ|` authority warning at 75° (yaw integrator freeze). **No v1 base-rate feed-forward.**
+Shared: τ_d = 5 ms, τ_max = 0.15 N·m, inner torque dead-zone = 0.001 N·m, `|θ|` authority warning at 75° (yaw integrator freeze). EKF defaults include `ekf_sigma_mag = 1.0 µT`. **No v1 base-rate feed-forward.**
+
+Optional Python: `cmake -DSGS_BUILD_PYTHON=ON`, then `PYTHONPATH=build/python python3 -m pytest -q python/tests`.
 
 ## Frames and conventions
 

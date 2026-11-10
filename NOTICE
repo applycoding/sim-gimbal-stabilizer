@@ -1,10 +1,22 @@
 sim-gimbal-stabilizer, Copyright 2026 Arpan Bom
 
-Idea credits (no third-party controller source is vendored):
-See REFERENCES.md and the README for permissively licensed projects cited as ideas only.
+Idea references only (no third-party controller source is vendored or translated):
+- PX4/PX4-Autopilot (BSD-3-Clause) — cascaded attitude/rate and mount setpoint ideas
+- simplefoc/Arduino-FOC (MIT) — cascaded loop structure ideas, not FOC
+- xioTechnologies/Fusion (MIT) — AHRS layout ideas
+- Mayitzin/ahrs (MIT) — filter taxonomy for documentation
+- simondlevy/TinyEKF (MIT) — static EKF allocation pattern
+- ros-controls/control_toolbox (Apache-2.0) — PID with limits / anti-windup API shape
+- CCNY imu_tools imu_complementary_filter idea (BSD-3-Clause) — complementary correction concept; GPL Madgwick excluded
+- cra-ros-pkg/robot_localization (BSD-3-Clause) — fusion framing ideas
+See REFERENCES.md for full citations.
 
-Dependency notices:
-- GoogleTest (BSD-3-Clause) — test framework via FetchContent when SGS_BUILD_TESTS=ON
-- pybind11 (BSD-style) — optional Python bindings when SGS_BUILD_PYTHON=ON
-- nlohmann/json (MIT) — optional scenario JSON when tests need it
-- Emscripten SDK — WASM toolchain for the browser demo (upstream licenses apply to emitted glue)
+Build and test dependencies (fetched at build time, not vendored in-tree):
+- GoogleTest v1.18.0 (BSD-3-Clause) — unit tests when SGS_BUILD_TESTS=ON
+- pybind11 v3.1.0 (BSD-style) — optional Python bindings when SGS_BUILD_PYTHON=ON
+- pytest 9.2.0 (MIT) — optional Python tests
+- CMake ≥ 3.22 (BSD-3-Clause) — build system
+- Emscripten SDK 7.0.0 / emcc (MIT/GPL/LGPL components per upstream emsdk notice) — WASM compile only
+- Node.js / npm ecosystem for web/: Vite 8.3.7 (MIT), Vitest 5.1.0 (MIT), TypeScript 7.0.2 (Apache-2.0), @playwright/test 1.65.0 (Apache-2.0), @types/node 22.10.2 (MIT)
+
+None of the above controller libraries are vendored as source in this repository.

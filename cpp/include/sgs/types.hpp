@@ -54,7 +54,7 @@ struct Gains {
   double ekf_sigma_gyro{0.01};
   double ekf_sigma_bias_rw{1e-4};
   double ekf_sigma_acc{0.3};
-  double ekf_sigma_mag{2.0};
+  double ekf_sigma_mag{1.0};
   double comp_kp_acc{2.0};
   double comp_kp_mag{0.5};
 };

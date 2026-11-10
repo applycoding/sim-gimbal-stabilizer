@@ -21,3 +21,18 @@ jobs:
           cmake --build build -j$(nproc)
           ctest --test-dir build --output-on-failure
           python3 tools/check_no_heap.py
+
+  python:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+      - name: Build Python module
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-13 cmake python3-dev
+          pip3 install -r python/requirements-dev.txt
+          cmake -S . -B build-py -DCMAKE_CXX_COMPILER=g++-13 -DCMAKE_BUILD_TYPE=Release \
+            -DSGS_BUILD_PYTHON=ON -DSGS_BUILD_TESTS=OFF -DSGS_BUILD_ROS=OFF -DSGS_BUILD_WASM=OFF
+          cmake --build build-py -j$(nproc) -t sgs_core_py
+      - name: pytest
+        run: PYTHONPATH=build-py/python python3 -m pytest -q python/tests

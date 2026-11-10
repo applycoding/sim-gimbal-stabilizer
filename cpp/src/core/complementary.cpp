@@ -7,16 +7,13 @@
 
 namespace sgs {
 
-namespace {
-
-double mag_yaw_error(const Quat& q, const ImuSample& imu) {
+double mag_heading_error_rad(const Quat& q, const ImuSample& imu) {
   const Vec3 m_body{imu.mag_uT[0], imu.mag_uT[1], imu.mag_uT[2]};
   const double mn = vec3_norm(m_body);
   if (mn < 1e-6) {
     return 0.0;
   }
   const Vec3 m_hat = vec3_scale(m_body, 1.0 / mn);
-  const Quat qc = quat_conj(q);
   const Vec3 m_ned = quat_rotate(q, m_hat);
   const Vec3 ref{complementary::kMagRefNed[0], complementary::kMagRefNed[1],
                complementary::kMagRefNed[2]};
@@ -35,8 +32,6 @@ double mag_yaw_error(const Quat& q, const ImuSample& imu) {
   }
   return err;
 }
-
-}  // namespace
 
 void complementary_predict(double dt, const ImuSample& imu, double comp_kp_acc,
                            double comp_kp_mag, EstimatorState* st, uint32_t* flags) {
@@ -63,7 +58,7 @@ void complementary_predict(double dt, const ImuSample& imu, double comp_kp_acc,
   if (!mag_valid) {
     *flags |= kFlagMagMissing;
   } else {
-    const double yaw_err = mag_yaw_error(st->q, imu);
+    const double yaw_err = mag_heading_error_rad(st->q, imu);
     omega.z += comp_kp_mag * yaw_err;
   }
 

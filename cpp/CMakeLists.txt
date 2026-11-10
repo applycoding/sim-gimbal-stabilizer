@@ -68,6 +68,7 @@ if(SGS_BUILD_WASM)
 endif()
 
 if(SGS_BUILD_PYTHON)
+  include(FetchContent)
   find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
   FetchContent_Declare(
     pybind11
